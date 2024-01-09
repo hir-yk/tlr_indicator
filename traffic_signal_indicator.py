@@ -15,7 +15,7 @@ class TrafficLightExtractor(Node):
 
         self.subscription = self.create_subscription(
             LookingTrafficSignal,
-            '/awapi/traffic_light/get/nearest_traffic_signal',
+            '/planning/scenario_planning/lane_driving/behavior_planning/debug/traffic_signal',   # AWF
             self.listener_callback,
             10)
 
