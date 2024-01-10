@@ -21,6 +21,7 @@ class TrafficLightExtractor(Node):
 
         self.root.bind("<Configure>", self.on_resize)
         self.judge = 0
+        self.color = 0
 
     def on_resize(self, event):
         self.canvas.delete("all")
@@ -38,9 +39,12 @@ class TrafficLightExtractor(Node):
 
     def listener_callback(self, msg):
         self.get_logger().info('Traffic Signal Judge: "%d"' % msg.result.judge)
+       # self.get_logger().info('Traffic Signal Color: "%d"' % msg.result.signal.lights)
+        print( msg.result.signal.lights[0].color )
 
         # Set the new state
         self.judge = msg.result.judge
+        self.color = msg.result.signal.lights[0].color
 
         # Update the display
         self.update_display()
@@ -58,15 +62,24 @@ class TrafficLightExtractor(Node):
             self.draw_circle(2.5*self.canvas.winfo_width()/5, self.canvas.winfo_height()/2, dark_yellow)
             self.draw_circle(4*self.canvas.winfo_width()/5, self.canvas.winfo_height()/2, dark_red)
 
-        elif self.judge == 3:
+#        elif self.judge == 3:
+        elif self.color == 1:
             self.draw_circle(self.canvas.winfo_width()/5, self.canvas.winfo_height()/2, dark_green)
             self.draw_circle(2.5*self.canvas.winfo_width()/5, self.canvas.winfo_height()/2, dark_yellow)
             self.draw_circle(4*self.canvas.winfo_width()/5, self.canvas.winfo_height()/2, 'red')
 
-        elif self.judge == 4:
+#        elif self.judge == 4:
+        elif self.color == 2:
+            self.draw_circle(self.canvas.winfo_width()/5, self.canvas.winfo_height()/2, dark_green)
+            self.draw_circle(2.5*self.canvas.winfo_width()/5, self.canvas.winfo_height()/2, 'yellow')
+            self.draw_circle(4*self.canvas.winfo_width()/5, self.canvas.winfo_height()/2, dark_red)
+
+#        elif self.judge == 4:
+        elif self.color == 3:
             self.draw_circle(self.canvas.winfo_width()/5, self.canvas.winfo_height()/2, 'green')
             self.draw_circle(2.5*self.canvas.winfo_width()/5, self.canvas.winfo_height()/2, dark_yellow)
             self.draw_circle(4*self.canvas.winfo_width()/5, self.canvas.winfo_height()/2, dark_red)
+
 
 def main(args=None):
     rclpy.init(args=args)
