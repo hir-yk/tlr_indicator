@@ -40,11 +40,11 @@ class TrafficLightExtractor(Node):
     def listener_callback(self, msg):
         self.get_logger().info('Traffic Signal Judge: "%d"' % msg.result.judge)
        # self.get_logger().info('Traffic Signal Color: "%d"' % msg.result.signal.lights)
-        print( msg.result.signal.lights[0].color )
 
         # Set the new state
         self.judge = msg.result.judge
-        self.color = msg.result.signal.lights[0].color
+        if( self.judge != 0):
+            self.color = msg.result.signal.lights[0].color
 
         # Update the display
         self.update_display()
